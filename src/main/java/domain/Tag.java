@@ -3,6 +3,8 @@ package domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Tag {
@@ -10,6 +12,8 @@ public class Tag {
     @GeneratedValue
     private long id;
     private String libelle;
+    @ManyToMany
+    List<Fiche> fiches;
 
 
     public Tag() {
@@ -31,5 +35,13 @@ public class Tag {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public List<Fiche> getFiches() {
+        return fiches;
+    }
+
+    public void  setFiches(List<Fiche> fiches) {
+        this.fiches = fiches;
     }
 }

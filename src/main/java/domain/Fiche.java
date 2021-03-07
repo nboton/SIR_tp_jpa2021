@@ -2,6 +2,7 @@ package domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Fiche {
@@ -17,8 +18,17 @@ public class Fiche {
     private String noteExplicative;
     private int delai;
 
+    @ManyToMany(mappedBy = "fiches")
+    private List<Tag> tags;
+
     @ManyToOne
     private Utilisateur utilisateur;
+
+    @OneToMany(mappedBy = "fiche", cascade = CascadeType.PERSIST)
+    private List<PositionnementFiche> positionnementFiches;
+
+    @ManyToOne
+    private Tableau tableau;
 
     public Fiche() {
         super();
@@ -86,5 +96,30 @@ public class Fiche {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Tableau getTableau() {
+        return tableau;
+    }
+
+    public void setTableau(Tableau tableau) {
+        this.tableau = tableau;
+    }
+
+    public List<PositionnementFiche> getPositionnementFiches() {
+        return positionnementFiches;
+    }
+
+    public void setPositionnementFiches(List<PositionnementFiche> positionnementFiches) {
+        this.positionnementFiches = positionnementFiches;
+
     }
 }

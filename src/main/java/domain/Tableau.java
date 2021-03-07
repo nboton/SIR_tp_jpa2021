@@ -1,8 +1,7 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Tableau {
@@ -10,6 +9,11 @@ public class Tableau {
     @GeneratedValue
     private long id;
     private String libelle;
+    @ManyToMany(mappedBy = "tableaux")
+    private List<Section> sections;
+
+    @OneToMany(mappedBy = "tableau", cascade = CascadeType.PERSIST)
+    private List<Fiche> fiches;
 
 
     public Tableau() {
@@ -30,5 +34,21 @@ public class Tableau {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public List<Fiche> getFiches() {
+        return fiches;
+    }
+
+    public void setFiches(List<Fiche> fiches) {
+        this.fiches = fiches;
     }
 }

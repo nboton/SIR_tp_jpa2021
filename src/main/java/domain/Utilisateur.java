@@ -4,36 +4,37 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="AllUsers",
+                query = "select u from Utilisateur as u where u.prenom=:prenomUser")
+})
 public class Utilisateur {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int numero ;
+    private String code ;
     private String nom;
     private String prenom;
     private String email;
-
-    @OneToMany(mappedBy = "utilisateur")
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.PERSIST)
     private List<Fiche> fiches;
 
 
     public Utilisateur() {
         super();
     }
-    public int getNumero() {
-        return numero;
+    public String getCode() {
+        return code;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getNom() {
         return nom;
     }
 
-    public Utilisateur setNom(String nom) {
+    public void setNom(String nom) {
         this.nom = nom;
-        return this;
     }
 
     public String getPrenom() {
