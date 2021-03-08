@@ -1,36 +1,42 @@
 package domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity @Table(name = "T_Section")
 public class Section {
     @Id
     @GeneratedValue
-    private long id;
+    private long idSection;
     private String libelle;
     @ManyToMany
-    private List<Tableau> tableaux;
+    @JoinTable( name = "T_Tableau_Section",
+            joinColumns = @JoinColumn( name = "idSection" ),
+            inverseJoinColumns = @JoinColumn( name = "idTableau" ) )
+    private List<Tableau> tableaux =new ArrayList<>();
+
     @OneToMany(mappedBy = "section", cascade = CascadeType.PERSIST)
-    private List<PositionnementFiche> positionnementFiches;
+    private List<PositionnementFiche> positionnementFiches=new ArrayList<>();
 
     public Section() {
         super();
     }
 
     public Section(String libelle) {
-        this.id = id;
+        this.idSection = idSection;
         this.libelle = libelle;
         this.tableaux = tableaux;
         this.positionnementFiches = positionnementFiches;
     }
 
-    public long getId() {
-        return id;
+    public long getIdSection() {
+        return idSection;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIdSection(long id) {
+        this.idSection = id;
     }
 
     public String getLibelle() {

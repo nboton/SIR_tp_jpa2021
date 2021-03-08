@@ -9,7 +9,9 @@ public class UtilisateurDao {
 
     public Utilisateur save(Utilisateur u ){
         EntityManagerHelper.beginTransaction();
-        if (u.getCode() != null) {
+        int number = EntityManagerHelper.getEntityManager().createQuery("Select a From Utilisateur a", Utilisateur.class).getResultList().size();
+        
+        if (number != 0) {
             EntityManagerHelper.getEntityManager().merge(u);
 
         } else {

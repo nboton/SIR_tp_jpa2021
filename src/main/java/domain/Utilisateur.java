@@ -1,32 +1,37 @@
 package domain;
 
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity @Table(name = "T_Utilisateur")
 @NamedQueries({
         @NamedQuery(name="AllUsers",
                 query = "select u from Utilisateur as u where u.prenom=:prenomUser")
 })
 public class Utilisateur {
     @Id
-    private String code ;
+    private String codeUser ;
     private String nom;
     private String prenom;
     private String email;
-    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.PERSIST)
-    private List<Fiche> fiches;
+    @OneToMany(mappedBy = "utilisateur", cascade = { CascadeType.PERSIST})
+    //@JsonIgnoreProperties("utilisateur")
+    private List<Fiche> fiches=new ArrayList<>();
 
 
     public Utilisateur() {
         super();
     }
-    public String getCode() {
-        return code;
+    public String getCodeUser() {
+        return codeUser;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeUser(String code) {
+        this.codeUser = code;
     }
 
     public String getNom() {
@@ -59,4 +64,10 @@ public class Utilisateur {
     public void setFiches(List<Fiche> fiches) {
         this.fiches = fiches;
     }
+
+    public String toString() {
+        return this.codeUser + ": " + this.nom + "/" + this.prenom
+                + " - " + this.email ;
+    }
+
 }

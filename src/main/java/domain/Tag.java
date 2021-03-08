@@ -1,31 +1,37 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Tag {
+@Entity @Table(name = "T_Tag")
+public class Tag  {
     @Id
     @GeneratedValue
-    private long id;
+    private long idTag;
     private String libelle;
     @ManyToMany
-    List<Fiche> fiches;
+    @JoinTable( name = "T_Fiche_Tag",
+            joinColumns = @JoinColumn( name = "id_Tag" ),
+            inverseJoinColumns = @JoinColumn( name = "idFiche" ) )
+    List<Fiche> fiches=new ArrayList<>();
 
 
     public Tag() {
         super();
     }
 
-    public long getId() {
-        return id;
+    public Tag(String libelle) {
+        this.libelle = libelle;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getIdTag() {
+        return idTag;
+    }
+
+    public void setIdTag(long id) {
+        this.idTag = id;
 
     }
 
@@ -44,4 +50,6 @@ public class Tag {
     public void  setFiches(List<Fiche> fiches) {
         this.fiches = fiches;
     }
+
+
 }

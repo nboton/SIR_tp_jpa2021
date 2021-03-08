@@ -2,9 +2,11 @@ package jpa;
 
 import Dao.FicheDao;
 import Dao.SectionDao;
+import Dao.TableauDao;
 import Dao.UtilisateurDao;
 import domain.Fiche;
 import domain.Section;
+import domain.Tableau;
 import domain.Utilisateur;
 
 import javax.persistence.EntityManager;
@@ -19,6 +21,7 @@ public class JpaTest {
     UtilisateurDao uDao = new UtilisateurDao();
     FicheDao fDao = new FicheDao();
     SectionDao sDao = new SectionDao();
+    TableauDao tableauDao=new TableauDao();
 
     public JpaTest() {
     }
@@ -30,12 +33,14 @@ public class JpaTest {
     public static void main(String[] args) {
 
         JpaTest test = new JpaTest();
-        test.createUtilisateur();
+        //test.createUtilisateur();
         test.createSection();
         test.createFiche();
+        test.createTableau();
         test.listUtilisateur();
         test.listSection();
         test.listFiche();
+
 
     }
 
@@ -43,8 +48,6 @@ public class JpaTest {
      * Création des instances de Sections
      */
     public void createSection() {
-        //Création d'utilisateur u
-        //u1
         Section s1 = new Section("en attente");
         Section s2 = new Section("en cours");
         Section s3 = new Section("réalisé");
@@ -52,33 +55,40 @@ public class JpaTest {
         sDao.save(s2);
         sDao.save(s3);
     }
+    public void createTableau() {
+        Tableau t1 = new Tableau("Tableau1");
+        Tableau t2 = new Tableau("Tableau2");
+        Tableau t3 = new Tableau("Tableau3");
+        tableauDao.save(t1);
+        tableauDao.save(t2);
+        tableauDao.save(t3);
+    }
 
     /**
      * création des instances d'utilisateur
      */
     public void createUtilisateur() {
-        UtilisateurDao uDao = new UtilisateurDao();
-        //Création d'utilisateur u
+        //Création d'utilisateur
         //u1
         Utilisateur u1 = new Utilisateur();
-        u1.setCode("u1");
+        u1.setCodeUser("u1");
         u1.setNom("BOTON");
         u1.setPrenom("Olive");
         u1.setEmail("boton@gmail.com");
         uDao.save(u1);
         //u2
         Utilisateur u2 = new Utilisateur();
-        u2.setCode("u2");
+        u2.setCodeUser("u2");
         u2.setNom("GIROU");
-        u2.setPrenom("Olive");
-        u2.setEmail("boton@gmail.com");
+        u2.setPrenom("Olivier");
+        u2.setEmail("girou@gmail.com");
         uDao.save(u2);
         //u3
         Utilisateur u3 = new Utilisateur();
-        u3.setCode("u3");
+        u3.setCodeUser("u3");
         u3.setNom("MACHADI");
         u3.setPrenom("Anwar");
-        u3.setEmail("boton@gmail.com");
+        u3.setEmail("anwar@gmail.com");
         uDao.save(u3);
 
 
@@ -90,13 +100,13 @@ public class JpaTest {
     public void createFiche() {
 
         //Création d'utilisateur u
-        //u1
-        Utilisateur u1 = new Utilisateur();
-        u1.setCode("u1");
-        u1.setNom("BOTON");
-        u1.setPrenom("Olive");
-        u1.setEmail("boton@gmail.com");
-        uDao.save(u1);
+        //
+        Utilisateur u4 = new Utilisateur();
+        u4.setCodeUser("u");
+        u4.setNom("Victor");
+        u4.setPrenom("Hugo");
+        u4.setEmail("victor@gmail.com");
+
 
         //Enregistrement fiche
         SimpleDateFormat formatDat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
@@ -112,9 +122,22 @@ public class JpaTest {
         f1.setLieu("Ville jean");
         f1.setUrl("http:/www.toto.com");
         f1.setNoteExplicative("Backup cfg file-Cisco");
-        f1.setUtilisateur(u1);
-        f1.setUtilisateur(u1);
+        f1.setUtilisateur(u4);
+
+        uDao.save(u4);
         fDao.save(f1);
+        Fiche f2 = new Fiche();
+        try {
+            f2.setDateButoire(formatDat.parse("07-02-2021"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        f2.setDelai(20);
+        f2.setLibelle("Fiche 2");
+        f2.setLieu("Ville jean");
+        f2.setUrl("http:/www.momo.com");
+        f2.setNoteExplicative("Creation d'un module");
+        f2.setUtilisateur(u4);
 
     }
 
@@ -135,8 +158,8 @@ public class JpaTest {
     public void listUtilisateur() {
         System.out.println("Liste de tous les utilisateu:");
         for (Utilisateur u : uDao.findAll()) {
-            System.out.println(u.getCode() + " " + u.getNom() + " " + u.getPrenom() + " " + u.getEmail());
-
+           // System.out.println(u.getCodeUser() + " " + u.getNom() + " " + u.getPrenom() + " " + u.getEmail());
+            System.out.println(u.toString());
         }
 
     }
@@ -148,7 +171,7 @@ public class JpaTest {
 
         System.out.println("Liste de toutes les fiches:");
         for (Fiche f : fDao.findAll()) {
-            System.out.println(f.getLibelle() + "| " + f.getNoteExplicative() + "|" + f.getDelai() + " | " + f.getLieu() + "| " + f.getUrl() + " |" + f.getUtilisateur().getCode());
+            System.out.println(f.getLibelle() + "| " + f.getNoteExplicative() + "|" + f.getDelai() + " | " + f.getLieu() + "| " + f.getUrl() + " |" + f.getUtilisateur().getCodeUser());
         }
     }
 
